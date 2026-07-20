@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { MobileTopNav, MobileBottomNav } from "@/components/layout/MobileNavigation";
 import "./globals.css";
 
 const inter = Inter({
@@ -34,27 +33,13 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
       </head>
       <body className="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container overflow-x-hidden min-h-full flex flex-col">
-        {/* Desktop Navigation */}
-        <div className="hidden md:block">
-          <Navbar />
-        </div>
-        
-        {/* Mobile Navigation */}
-        <div className="md:hidden">
-          <MobileTopNav />
-        </div>
+        <Navbar />
 
         <main className="flex-grow">
           {children}
         </main>
 
-        <div className="hidden md:block">
-          <Footer />
-        </div>
-        
-        <div className="md:hidden">
-          <MobileBottomNav />
-        </div>
+        <Footer />
       </body>
     </html>
   );
