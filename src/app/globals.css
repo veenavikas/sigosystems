@@ -1,26 +1,133 @@
 @import "tailwindcss";
 
+@theme inline {
+  --color-surface: #f9f9ff;
+  --color-surface-dim: #cadbf9;
+  --color-surface-bright: #f9f9ff;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f0f3ff;
+  --color-surface-container: #e7eeff;
+  --color-surface-container-high: #dde9ff;
+  --color-surface-container-highest: #d4e3ff;
+  --color-on-surface: #0a1c32;
+  --color-on-surface-variant: #434654;
+  --color-inverse-surface: #213148;
+  --color-inverse-on-surface: #ebf1ff;
+  --color-outline: #737686;
+  --color-outline-variant: #c3c6d7;
+  --color-surface-tint: #0354d6;
+  
+  --color-primary: #0047b8;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #1e5fe0;
+  --color-on-primary-container: #e2e7ff;
+  --color-inverse-primary: #b3c5ff;
+  
+  --color-secondary: #485d93;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #aec2ff;
+  --color-on-secondary-container: #3a4f84;
+  
+  --color-tertiary: #005388;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #036cae;
+  --color-on-tertiary-container: #d9e9ff;
+  
+  --color-background: #f9f9ff;
+  --color-on-background: #0a1c32;
+  --color-surface-variant: #d4e3ff;
+
+  --font-sans: var(--font-inter);
+  --font-heading: var(--font-inter);
+
+  /* Spacing Tokens */
+  --spacing-unit-xs: 4px;
+  --spacing-unit-sm: 8px;
+  --spacing-unit-md: 16px;
+  --spacing-unit-lg: 24px;
+  --spacing-unit-xl: 48px;
+  --spacing-margin-mobile: 20px;
+  --spacing-margin-desktop: 64px;
+  --spacing-gutter: 24px;
+  --spacing-container-max: 1440px;
+
+  /* Typography Tokens */
+  --font-display-xl: var(--font-inter), sans-serif;
+  --font-display-xl-mobile: var(--font-inter), sans-serif;
+  --font-headline-lg: var(--font-inter), sans-serif;
+  --font-headline-md: var(--font-inter), sans-serif;
+  --font-body-lg: var(--font-inter), sans-serif;
+  --font-body-md: var(--font-inter), sans-serif;
+  --font-label-sm: var(--font-inter), sans-serif;
+
+  --text-display-xl: 64px;
+  --text-display-xl--line-height: 1.1;
+  --text-display-xl--letter-spacing: -0.04em;
+  --text-display-xl--font-weight: 700;
+
+  --text-display-xl-mobile: 40px;
+  --text-display-xl-mobile--line-height: 1.2;
+  --text-display-xl-mobile--letter-spacing: -0.03em;
+  --text-display-xl-mobile--font-weight: 700;
+
+  --text-headline-lg: 32px;
+  --text-headline-lg--line-height: 1.3;
+  --text-headline-lg--letter-spacing: -0.02em;
+  --text-headline-lg--font-weight: 600;
+
+  --text-headline-md: 24px;
+  --text-headline-md--line-height: 1.4;
+  --text-headline-md--letter-spacing: -0.01em;
+  --text-headline-md--font-weight: 600;
+
+  --text-body-lg: 18px;
+  --text-body-lg--line-height: 1.6;
+  --text-body-lg--letter-spacing: 0;
+  --text-body-lg--font-weight: 400;
+
+  --text-body-md: 16px;
+  --text-body-md--line-height: 1.5;
+  --text-body-md--letter-spacing: 0;
+  --text-body-md--font-weight: 400;
+
+  --text-label-sm: 14px;
+  --text-label-sm--line-height: 1;
+  --text-label-sm--letter-spacing: 0.05em;
+  --text-label-sm--font-weight: 600;
+}
+
 :root {
   --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --foreground: #0f172a;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading), sans-serif;
+}
+
+@layer utilities {
+  .reveal-text {
+    animation: textReveal 1.2s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  @keyframes textReveal {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+  }
+  .glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
 }
