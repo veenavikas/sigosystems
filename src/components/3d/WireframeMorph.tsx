@@ -22,7 +22,7 @@ function MorphingShape() {
   return (
     <mesh ref={meshRef}>
       <icosahedronGeometry args={[2, 1]} />
-      <meshBasicMaterial color="#06b6d4" wireframe transparent opacity={0.4} />
+      <meshBasicMaterial color="#1E5FE0" wireframe transparent opacity={0.6} />
     </mesh>
   );
 }

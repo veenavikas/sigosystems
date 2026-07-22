@@ -36,7 +36,7 @@ export default function Home() {
   return (
     <main className="pb-[80px] min-h-[max(884px,100dvh)]">
       {/* Hero Section */}
-      <section className="relative h-[850px] flex flex-col items-center justify-center px-6 md:px-12 text-center overflow-hidden bg-[#000000]">
+      <section className="relative h-[850px] flex flex-col items-center justify-center px-6 md:px-12 text-center overflow-hidden bg-white">
         
         {/* Background 3D Effect / Ambient glow */}
         <div className="absolute inset-0 z-0">
@@ -46,24 +46,24 @@ export default function Home() {
         <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-b from-transparent to-white pointer-events-none z-10"></div>
 
         <div className="relative z-20 w-full max-w-4xl mx-auto">
-          <div className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-8 shadow-[0_0_30px_rgba(30,95,224,0.2)] reveal-text" style={{ animationDelay: '0.1s' }}>
+          <div className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-slate-50 border border-slate-200 backdrop-blur-md mb-8 shadow-sm reveal-text" style={{ animationDelay: '0.1s' }}>
             <div className="w-2 h-2 rounded-full bg-[#1E5FE0] shadow-[0_0_10px_#1E5FE0] animate-pulse"></div>
-            <span className="font-label-sm text-xs font-bold text-white uppercase tracking-[0.25em]">HUMAN · DEEP TECH · DECISION</span>
+            <span className="font-label-sm text-xs font-bold text-slate-800 uppercase tracking-[0.25em]">HUMAN · DEEP TECH · DECISION</span>
           </div>
           
-          <h1 className="text-5xl md:text-7xl lg:text-[80px] font-bold tracking-tight text-white mb-8 reveal-text leading-[1.1]" style={{ animationDelay: '0.3s' }}>
-            SIGO turns raw data <br className="hidden md:block" /> into <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1E5FE0] to-[#b2c5ff]">decisions.</span>
+          <h1 className="text-5xl md:text-7xl lg:text-[80px] font-bold tracking-tight text-slate-900 mb-8 reveal-text leading-[1.1]" style={{ animationDelay: '0.3s' }}>
+            SIGO turns raw data <br className="hidden md:block" /> into <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0B2559] to-[#1E5FE0]">decisions.</span>
           </h1>
           
-          <p className="text-lg md:text-xl text-[#b2c5ff] max-w-2xl mx-auto mb-12 reveal-text font-light leading-relaxed opacity-90" style={{ animationDelay: '0.5s' }}>
+          <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mb-12 reveal-text font-light leading-relaxed opacity-90" style={{ animationDelay: '0.5s' }}>
             We build the intelligence layer that lets organizations sense problems before they escalate and be able to act while it still matters.
           </p>
           
           <div className="flex flex-col md:flex-row justify-center items-center gap-4 reveal-text" style={{ animationDelay: '0.7s' }}>
-            <button className="bg-gradient-to-r from-[#0B2559] to-[#1E5FE0] text-white font-semibold tracking-wide uppercase text-sm px-8 py-4 rounded-xl shadow-[0_8px_30px_rgba(30,95,224,0.4)] hover:shadow-[0_12px_40px_rgba(30,95,224,0.6)] hover:-translate-y-1 transition-all duration-300 w-full md:w-auto">
+            <button className="bg-gradient-to-r from-[#0B2559] to-[#1E5FE0] text-white font-semibold tracking-wide uppercase text-sm px-8 py-4 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 w-full md:w-auto">
               Explore Our Ecosystem
             </button>
-            <button className="bg-white/5 border border-white/20 backdrop-blur-sm text-white font-semibold tracking-wide uppercase text-sm px-8 py-4 rounded-xl hover:bg-white/10 hover:border-white/30 transition-all duration-300 w-full md:w-auto">
+            <button className="bg-white border border-slate-200 text-slate-800 font-semibold tracking-wide uppercase text-sm px-8 py-4 rounded-xl hover:bg-slate-50 transition-all duration-300 w-full md:w-auto">
               Watch Technical Showcase
             </button>
           </div>

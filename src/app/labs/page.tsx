@@ -16,21 +16,21 @@ export default function LabsPage() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="relative w-full py-32 md:py-48 flex flex-col items-center justify-center overflow-hidden bg-[#000000]">
-        <div className="absolute inset-0 z-0 opacity-50 mix-blend-screen">
+      <section className="relative w-full py-32 md:py-48 flex flex-col items-center justify-center overflow-hidden bg-white">
+        <div className="absolute inset-0 z-0 opacity-50 mix-blend-multiply">
           <WireframeMorph />
         </div>
         <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-b from-transparent to-white pointer-events-none z-10"></div>
         
         <div className="relative z-20 container mx-auto px-6 md:px-12 text-center">
-          <div className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-8">
+          <div className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-slate-50 border border-slate-200 backdrop-blur-md mb-8 shadow-sm">
             <span className="w-1.5 h-1.5 rounded-full bg-[#1E5FE0] animate-pulse"></span>
-            <p className="text-[#b2c5ff] font-bold tracking-[0.2em] uppercase text-xs">R&D LABS: The Innovation Engine</p>
+            <p className="text-slate-600 font-bold tracking-[0.2em] uppercase text-xs">R&D LABS: The Innovation Engine</p>
           </div>
-          <h1 className="text-5xl md:text-6xl lg:text-[72px] font-bold tracking-tight text-white mb-6 font-heading leading-tight">
+          <h1 className="text-5xl md:text-6xl lg:text-[72px] font-bold tracking-tight text-slate-900 mb-6 font-heading leading-tight">
             Where Future Tech is Proven
           </h1>
-          <p className="text-lg md:text-xl text-[#9bcbff] max-w-4xl mx-auto font-light mb-10 leading-relaxed opacity-90">
+          <p className="text-lg md:text-xl text-slate-600 max-w-4xl mx-auto font-light mb-10 leading-relaxed opacity-90">
             The shared collaborative core of Sigo Systems—powering rapid prototyping, cross-vertical technology reuse, and foundational intellectual property generation.
           </p>
           <div className="flex justify-center">

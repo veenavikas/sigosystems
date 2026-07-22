@@ -128,7 +128,7 @@ export function HeroParticleField() {
 
   return (
     <div className="absolute inset-0 overflow-hidden bg-transparent z-0 flex items-center justify-center">
-      <div className="w-full max-w-4xl h-[600px] md:h-[800px] absolute opacity-80 md:opacity-100 mix-blend-screen">
+      <div className="w-full max-w-4xl h-[600px] md:h-[800px] absolute opacity-80 md:opacity-100 mix-blend-multiply">
          <Canvas camera={{ fov: 45, position: [0, 0, 8] }}>
           <SigoCoreScene />
         </Canvas>

@@ -18,10 +18,10 @@ function Globe() {
 
   return (
     <group ref={groupRef}>
-      {/* Dark Inner Core */}
+      {/* Light Inner Core */}
       <mesh>
         <sphereGeometry args={[9.8, 64, 64]} />
-        <meshBasicMaterial color="#000511" transparent opacity={0.95} />
+        <meshBasicMaterial color="#ffffff" transparent opacity={0.95} />
       </mesh>
       
       {/* Primary Globe Wireframe/Grid */}
@@ -39,19 +39,19 @@ function Globe() {
       {/* Orbiting points representing satellites/data nodes */}
       <mesh position={[12, 0, 0]}>
         <sphereGeometry args={[0.3, 16, 16]} />
-        <meshBasicMaterial color="#00e5ff" />
+        <meshBasicMaterial color="#1E5FE0" />
       </mesh>
       <mesh position={[-8, 8, 5]}>
         <sphereGeometry args={[0.2, 16, 16]} />
-        <meshBasicMaterial color="#00e5ff" />
+        <meshBasicMaterial color="#1E5FE0" />
       </mesh>
       <mesh position={[5, -10, -5]}>
         <sphereGeometry args={[0.25, 16, 16]} />
-        <meshBasicMaterial color="#00e5ff" />
+        <meshBasicMaterial color="#1E5FE0" />
       </mesh>
       <mesh position={[-2, 3, 11]}>
         <sphereGeometry args={[0.15, 16, 16]} />
-        <meshBasicMaterial color="#ffffff" />
+        <meshBasicMaterial color="#0B2559" />
       </mesh>
     </group>
   );

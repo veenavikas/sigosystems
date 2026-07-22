@@ -39,7 +39,7 @@ function SparseParticles({ count = 200 }) {
   return (
     <instancedMesh ref={mesh} args={[undefined, undefined, count]}>
       <sphereGeometry args={[0.08, 8, 8]} />
-      <meshBasicMaterial color="#00e5ff" transparent opacity={0.6} />
+      <meshBasicMaterial color="#1E5FE0" transparent opacity={0.6} />
     </instancedMesh>
   );
 }
@@ -51,7 +51,7 @@ export function QuantumParticleField() {
   if (prefersReducedMotion) {
     return (
       <div className="absolute inset-0 bg-transparent overflow-hidden z-0">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,229,255,0.15)_0,transparent_70%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(30,95,224,0.1)_0,transparent_70%)]" />
       </div>
     );
   }

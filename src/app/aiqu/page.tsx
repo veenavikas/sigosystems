@@ -27,24 +27,24 @@ export default function AIQUPage() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="relative w-full py-32 md:py-48 flex flex-col items-center justify-center overflow-hidden bg-[#000000]">
-        <div className="absolute inset-0 z-0 opacity-50 mix-blend-screen">
+      <section className="relative w-full py-32 md:py-48 flex flex-col items-center justify-center overflow-hidden bg-white">
+        <div className="absolute inset-0 z-0 opacity-50 mix-blend-multiply">
           <HeroParticleField />
         </div>
         <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-b from-transparent to-white pointer-events-none z-10"></div>
         
         <div className="relative z-20 container mx-auto px-6 md:px-12 text-center">
-          <div className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-8">
+          <div className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-slate-50 border border-slate-200 backdrop-blur-md mb-8 shadow-sm">
             <span className="w-1.5 h-1.5 rounded-full bg-[#1E5FE0] animate-pulse"></span>
-            <p className="text-[#b2c5ff] font-bold tracking-[0.2em] uppercase text-xs">SIGO AIQU: Deep tech for decision making</p>
+            <p className="text-slate-600 font-bold tracking-[0.2em] uppercase text-xs">SIGO AIQU: Deep tech for decision making</p>
           </div>
-          <h1 className="text-5xl md:text-6xl lg:text-[72px] font-bold tracking-tight text-white mb-6 font-heading leading-tight">
+          <h1 className="text-5xl md:text-6xl lg:text-[72px] font-bold tracking-tight text-slate-900 mb-6 font-heading leading-tight">
             Engineering the science <br className="hidden md:block"/> behind AI & Quantum
           </h1>
           <h2 className="text-xl md:text-2xl text-[#1E5FE0] font-medium mb-8 tracking-wide">
             Engineering Deep Tech Networks
           </h2>
-          <p className="text-lg md:text-xl text-[#9bcbff] max-w-3xl mx-auto font-light leading-relaxed opacity-90">
+          <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto font-light leading-relaxed opacity-90">
             AIQU bridges the gap between classical learning (AI) and quantum potential (QU). To solve the unsolvable with mission-critical architectures built for enterprise scale.
           </p>
         </div>

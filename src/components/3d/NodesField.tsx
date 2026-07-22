@@ -45,12 +45,12 @@ function Nodes() {
   return (
     <group ref={group}>
       <lineSegments geometry={linesGeometry}>
-        <lineBasicMaterial color="#00e5ff" transparent opacity={0.15} />
+        <lineBasicMaterial color="#1E5FE0" transparent opacity={0.3} />
       </lineSegments>
       {nodes.map((pos, i) => (
         <mesh key={i} position={pos}>
           <sphereGeometry args={[0.15, 8, 8]} />
-          <meshBasicMaterial color="#4f46e5" />
+          <meshBasicMaterial color="#1E5FE0" />
         </mesh>
       ))}
     </group>
