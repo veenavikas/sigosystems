@@ -21,16 +21,17 @@ export default function ContactPage() {
                 <div>
                   <h4 className="font-bold text-on-background">Headquarters</h4>
                   <p className="text-on-surface-variant text-sm mt-1">
-                    SIGO Systems Inc.<br />
-                    Deep Tech Innovation Hub<br />
-                    100 Quantum Way
+                    6th Floor, T Hub<br />
+                    Plot No 1/C, Sy No 83/1, Raidurgam Panmaktha<br />
+                    Hyderabad Knowledge City, Serilingampally<br />
+                    Hyderabad, Telangana 500081
                   </p>
                 </div>
                 <div>
                   <h4 className="font-bold text-on-background">Contact</h4>
                   <p className="text-on-surface-variant text-sm mt-1">
-                    contact@sigosystems.example.com<br />
-                    +1 (555) 123-4567
+                    contact@sigosys.com<br />
+                    +919700144794
                   </p>
                 </div>
               </div>
