@@ -91,12 +91,8 @@ function InnerOrbit() {
 
 function ThinLine({ start, end, color = "#94a3b8" }: any) {
   const points = [new THREE.Vector3(...start), new THREE.Vector3(...end)];
-  const geometry = new THREE.BufferGeometry().setFromPoints(points);
-  
   return (
-    <line geometry={geometry}>
-      <lineBasicMaterial color={color} transparent opacity={0.6} />
-    </line>
+    <Line points={points} color={color} lineWidth={1} transparent opacity={0.6} />
   );
 }
 
