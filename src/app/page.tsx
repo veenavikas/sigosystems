@@ -51,8 +51,8 @@ export default function Home() {
             <span className="font-label-sm text-xs font-bold text-slate-800 uppercase tracking-[0.25em]">HUMAN · DEEP TECH · DECISION</span>
           </div>
           
-          <h1 className="text-5xl md:text-7xl lg:text-[80px] font-bold tracking-tight text-slate-900 mb-8 reveal-text leading-[1.1]" style={{ animationDelay: '0.3s' }}>
-            SIGO turns raw data <br className="hidden md:block" /> into <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0B2559] to-[#1E5FE0]">decisions.</span>
+          <h1 className="text-5xl md:text-7xl lg:text-[80px] font-bold tracking-tight text-[#1E5FE0] mb-8 reveal-text leading-[1.1]" style={{ animationDelay: '0.3s' }}>
+            SIGO turns raw data <br className="hidden md:block" /> into decisions.
           </h1>
           
           <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mb-12 reveal-text font-light leading-relaxed opacity-90" style={{ animationDelay: '0.5s' }}>
