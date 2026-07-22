@@ -5,22 +5,45 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 
-function EyeCurve({ start, control, end, thickness = 0.08, color = "#1E5FE0" }: any) {
-  const curve = useMemo(() => {
-    return new THREE.QuadraticBezierCurve3(
-      new THREE.Vector3(...start),
-      new THREE.Vector3(...control),
-      new THREE.Vector3(...end)
-    );
-  }, [start, control, end]);
+function createShapes() {
+  // Top Eye Arc
+  const topShape = new THREE.Shape();
+  topShape.moveTo(2.8, 0); // right tip
+  // Inner arc going left
+  topShape.quadraticCurveTo(0.2, 1.6, -2.6, -0.3); // sharp left tip
+  // Outer arc returning right
+  topShape.quadraticCurveTo(0.2, 2.5, 2.8, 0);
 
-  return (
-    <mesh>
-      <tubeGeometry args={[curve, 64, thickness, 16, false]} />
-      <meshBasicMaterial color={color} />
-    </mesh>
-  );
+  // Bottom Eye Arc (Tapered right, blunt left)
+  const bottomShape = new THREE.Shape();
+  bottomShape.moveTo(2.7, -0.1); // right tip (joins top tip)
+  // Inner arc going left
+  bottomShape.quadraticCurveTo(0.2, -1.6, -1.9, -0.7);
+  // Blunt cut
+  bottomShape.lineTo(-2.0, -1.0);
+  // Outer arc returning right
+  bottomShape.quadraticCurveTo(0.2, -2.2, 2.7, -0.1);
+
+  // Orbiting Swoosh ring
+  const swooshShape = new THREE.Shape();
+  // Starts thick at the right
+  swooshShape.moveTo(1.2, 0.3);
+  // Sweeps left and tapers to a sharp point
+  swooshShape.quadraticCurveTo(0, -0.6, -1.5, -0.3);
+  // Sweeps back thick
+  swooshShape.quadraticCurveTo(0, -1.0, 1.3, -0.1);
+  
+  return { topShape, bottomShape, swooshShape };
 }
+
+const extrudeSettings = {
+  depth: 0.15,
+  bevelEnabled: true,
+  bevelSegments: 4,
+  bevelSteps: 4,
+  bevelSize: 0.02,
+  bevelThickness: 0.02,
+};
 
 function CylinderLine({ start, end, thickness = 0.04, color = "#94a3b8" }: any) {
   const vStart = new THREE.Vector3(...start);
@@ -34,8 +57,8 @@ function CylinderLine({ start, end, thickness = 0.04, color = "#94a3b8" }: any) 
 
   return (
     <mesh position={position} quaternion={quaternion}>
-      <cylinderGeometry args={[thickness, thickness, distance, 8]} />
-      <meshBasicMaterial color={color} />
+      <cylinderGeometry args={[thickness, thickness, distance, 16]} />
+      <meshPhysicalMaterial color={color} metalness={0.2} roughness={0.3} />
     </mesh>
   );
 }
@@ -44,67 +67,81 @@ function AnimatedLogoScene() {
   const groupRef = useRef<THREE.Group>(null);
   const ringRef = useRef<THREE.Group>(null);
   const { pointer } = useThree();
+  
+  const { topShape, bottomShape, swooshShape } = useMemo(createShapes, []);
 
   useFrame((state, delta) => {
     if (groupRef.current) {
-      // Gentle floating and rotation based on time and mouse
       const time = state.clock.elapsedTime;
-      groupRef.current.rotation.y = Math.sin(time * 0.5) * 0.2 + (pointer.x * 0.2);
-      groupRef.current.rotation.x = Math.cos(time * 0.3) * 0.1 - (pointer.y * 0.2);
-      groupRef.current.position.y = Math.sin(time) * 0.1;
+      // Mouse tracking and gentle float
+      groupRef.current.rotation.y = Math.sin(time * 0.4) * 0.15 + (pointer.x * 0.1);
+      groupRef.current.rotation.x = Math.cos(time * 0.3) * 0.05 - (pointer.y * 0.1);
+      groupRef.current.position.y = Math.sin(time * 1.5) * 0.05;
     }
     
     if (ringRef.current) {
-      // Spin the inner ring rapidly
-      ringRef.current.rotation.z -= delta * 1.5;
+      // Rotate the inner swoosh and dot
+      ringRef.current.rotation.z -= delta * 1.2;
     }
   });
 
   return (
-    <group ref={groupRef} scale={1.2}>
-      {/* Top Eye Curve */}
-      <EyeCurve start={[-3.0, 0, 0]} control={[0, 2.5, 0]} end={[3.0, 0, 0]} thickness={0.15} color="#1E5FE0" />
+    <group ref={groupRef} scale={1.3}>
+      <ambientLight intensity={2.5} color="#ffffff" />
+      <directionalLight position={[5, 10, 5]} intensity={4} />
+      <directionalLight position={[-5, -10, -5]} intensity={1} />
       
-      {/* Bottom Eye Curve */}
-      <EyeCurve start={[-2.2, -1.0, 0]} control={[0.3, -2.8, 0]} end={[2.8, -1.0, 0]} thickness={0.12} color="#1E5FE0" />
+      {/* Top Eye Arch */}
+      <mesh position={[0, 0, -0.075]}>
+        <extrudeGeometry args={[topShape, extrudeSettings]} />
+        <meshPhysicalMaterial color="#1E5FE0" metalness={0.1} roughness={0.2} clearcoat={1} />
+      </mesh>
+      
+      {/* Bottom Eye Arch */}
+      <mesh position={[0, 0, -0.075]}>
+        <extrudeGeometry args={[bottomShape, extrudeSettings]} />
+        <meshPhysicalMaterial color="#1E5FE0" metalness={0.1} roughness={0.2} clearcoat={1} />
+      </mesh>
 
-      {/* Inner Rotating Ring */}
-      <group rotation={[1.2, 0.2, 0]}>
+      {/* Orbiting Swoosh */}
+      <group rotation={[1.0, 0.4, 0]}>
         <group ref={ringRef}>
-          <mesh>
-            <torusGeometry args={[1.5, 0.06, 16, 64]} />
-            <meshBasicMaterial color="#1E5FE0" />
+          {/* Sweeping Tail */}
+          <mesh position={[0, 0, -0.05]}>
+            <extrudeGeometry args={[swooshShape, { ...extrudeSettings, depth: 0.1 }]} />
+            <meshPhysicalMaterial color="#1E5FE0" metalness={0.1} roughness={0.2} clearcoat={1} />
           </mesh>
-          <mesh position={[1.5, 0, 0]}>
-            <sphereGeometry args={[0.25, 32, 32]} />
-            <meshBasicMaterial color="#1E5FE0" />
+          {/* Orbiting Dot */}
+          <mesh position={[1.25, 0.1, 0]}>
+            <sphereGeometry args={[0.22, 32, 32]} />
+            <meshPhysicalMaterial color="#1E5FE0" metalness={0.1} roughness={0.2} clearcoat={1} />
           </mesh>
         </group>
       </group>
 
       {/* Center Graph / Molecule */}
       <group>
-        {/* Center Node */}
-        <mesh position={[-0.2, -0.4, 0.2]}>
-          <sphereGeometry args={[0.35, 32, 32]} />
-          <meshBasicMaterial color="#475569" />
+        {/* Center Main Node */}
+        <mesh position={[-0.3, -0.2, 0.2]}>
+          <sphereGeometry args={[0.3, 32, 32]} />
+          <meshPhysicalMaterial color="#64748b" metalness={0.2} roughness={0.3} />
         </mesh>
         
-        {/* Left Node */}
-        <mesh position={[-1.2, 0.6, -0.2]}>
-          <sphereGeometry args={[0.25, 32, 32]} />
-          <meshBasicMaterial color="#94a3b8" />
+        {/* Top Left Node */}
+        <mesh position={[-1.1, 0.7, 0.0]}>
+          <sphereGeometry args={[0.2, 32, 32]} />
+          <meshPhysicalMaterial color="#94a3b8" metalness={0.2} roughness={0.3} />
         </mesh>
         
-        {/* Right Node */}
-        <mesh position={[1.0, 0.6, 0.2]}>
-          <sphereGeometry args={[0.25, 32, 32]} />
-          <meshBasicMaterial color="#94a3b8" />
+        {/* Top Right Node */}
+        <mesh position={[0.9, 0.9, 0.4]}>
+          <sphereGeometry args={[0.2, 32, 32]} />
+          <meshPhysicalMaterial color="#94a3b8" metalness={0.2} roughness={0.3} />
         </mesh>
 
-        {/* Connections */}
-        <CylinderLine start={[-0.2, -0.4, 0.2]} end={[-1.2, 0.6, -0.2]} thickness={0.06} color="#cbd5e1" />
-        <CylinderLine start={[-0.2, -0.4, 0.2]} end={[1.0, 0.6, 0.2]} thickness={0.06} color="#cbd5e1" />
+        {/* Graph Connections */}
+        <CylinderLine start={[-0.3, -0.2, 0.2]} end={[-1.1, 0.7, 0.0]} thickness={0.08} color="#64748b" />
+        <CylinderLine start={[-0.3, -0.2, 0.2]} end={[0.9, 0.9, 0.4]} thickness={0.08} color="#64748b" />
       </group>
     </group>
   );
