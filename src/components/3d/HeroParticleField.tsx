@@ -37,15 +37,11 @@ function createShapes() {
 }
 
 const extrudeSettings = {
-  depth: 0.15,
-  bevelEnabled: true,
-  bevelSegments: 4,
-  bevelSteps: 4,
-  bevelSize: 0.02,
-  bevelThickness: 0.02,
+  depth: 0.05,
+  bevelEnabled: false,
 };
 
-function CylinderLine({ start, end, thickness = 0.04, color = "#94a3b8" }: any) {
+function CylinderLine({ start, end, thickness = 0.02, color = "#94a3b8" }: any) {
   const vStart = new THREE.Vector3(...start);
   const vEnd = new THREE.Vector3(...end);
   const distance = vStart.distanceTo(vEnd);
@@ -57,8 +53,8 @@ function CylinderLine({ start, end, thickness = 0.04, color = "#94a3b8" }: any) 
 
   return (
     <mesh position={position} quaternion={quaternion}>
-      <cylinderGeometry args={[thickness, thickness, distance, 16]} />
-      <meshPhysicalMaterial color={color} metalness={0.2} roughness={0.3} />
+      <cylinderGeometry args={[thickness, thickness, distance, 8]} />
+      <meshBasicMaterial color={color} wireframe transparent opacity={0.3} />
     </mesh>
   );
 }
@@ -86,35 +82,32 @@ function AnimatedLogoScene() {
   });
 
   return (
-    <group ref={groupRef} scale={1.3}>
-      <ambientLight intensity={2.5} color="#ffffff" />
-      <directionalLight position={[5, 10, 5]} intensity={4} />
-      <directionalLight position={[-5, -10, -5]} intensity={1} />
+    <group ref={groupRef} scale={1.4}>
       
       {/* Top Eye Arch */}
-      <mesh position={[0, 0, -0.075]}>
+      <mesh position={[0, 0, -0.025]}>
         <extrudeGeometry args={[topShape, extrudeSettings]} />
-        <meshPhysicalMaterial color="#1E5FE0" metalness={0.1} roughness={0.2} clearcoat={1} />
+        <meshBasicMaterial color="#1E5FE0" wireframe transparent opacity={0.15} />
       </mesh>
       
       {/* Bottom Eye Arch */}
-      <mesh position={[0, 0, -0.075]}>
+      <mesh position={[0, 0, -0.025]}>
         <extrudeGeometry args={[bottomShape, extrudeSettings]} />
-        <meshPhysicalMaterial color="#1E5FE0" metalness={0.1} roughness={0.2} clearcoat={1} />
+        <meshBasicMaterial color="#1E5FE0" wireframe transparent opacity={0.15} />
       </mesh>
 
       {/* Orbiting Swoosh */}
       <group rotation={[1.0, 0.4, 0]}>
         <group ref={ringRef}>
           {/* Sweeping Tail */}
-          <mesh position={[0, 0, -0.05]}>
-            <extrudeGeometry args={[swooshShape, { ...extrudeSettings, depth: 0.1 }]} />
-            <meshPhysicalMaterial color="#1E5FE0" metalness={0.1} roughness={0.2} clearcoat={1} />
+          <mesh position={[0, 0, -0.025]}>
+            <extrudeGeometry args={[swooshShape, { ...extrudeSettings, depth: 0.05 }]} />
+            <meshBasicMaterial color="#1E5FE0" wireframe transparent opacity={0.2} />
           </mesh>
           {/* Orbiting Dot */}
           <mesh position={[1.25, 0.1, 0]}>
-            <sphereGeometry args={[0.22, 32, 32]} />
-            <meshPhysicalMaterial color="#1E5FE0" metalness={0.1} roughness={0.2} clearcoat={1} />
+            <sphereGeometry args={[0.1, 16, 16]} />
+            <meshBasicMaterial color="#1E5FE0" wireframe transparent opacity={0.4} />
           </mesh>
         </group>
       </group>
@@ -123,25 +116,25 @@ function AnimatedLogoScene() {
       <group>
         {/* Center Main Node */}
         <mesh position={[-0.3, -0.2, 0.2]}>
-          <sphereGeometry args={[0.3, 32, 32]} />
-          <meshPhysicalMaterial color="#64748b" metalness={0.2} roughness={0.3} />
+          <sphereGeometry args={[0.15, 16, 16]} />
+          <meshBasicMaterial color="#64748b" wireframe transparent opacity={0.4} />
         </mesh>
         
         {/* Top Left Node */}
         <mesh position={[-1.1, 0.7, 0.0]}>
-          <sphereGeometry args={[0.2, 32, 32]} />
-          <meshPhysicalMaterial color="#94a3b8" metalness={0.2} roughness={0.3} />
+          <sphereGeometry args={[0.1, 16, 16]} />
+          <meshBasicMaterial color="#94a3b8" wireframe transparent opacity={0.4} />
         </mesh>
         
         {/* Top Right Node */}
         <mesh position={[0.9, 0.9, 0.4]}>
-          <sphereGeometry args={[0.2, 32, 32]} />
-          <meshPhysicalMaterial color="#94a3b8" metalness={0.2} roughness={0.3} />
+          <sphereGeometry args={[0.1, 16, 16]} />
+          <meshBasicMaterial color="#94a3b8" wireframe transparent opacity={0.4} />
         </mesh>
 
         {/* Graph Connections */}
-        <CylinderLine start={[-0.3, -0.2, 0.2]} end={[-1.1, 0.7, 0.0]} thickness={0.08} color="#64748b" />
-        <CylinderLine start={[-0.3, -0.2, 0.2]} end={[0.9, 0.9, 0.4]} thickness={0.08} color="#64748b" />
+        <CylinderLine start={[-0.3, -0.2, 0.2]} end={[-1.1, 0.7, 0.0]} thickness={0.03} color="#64748b" />
+        <CylinderLine start={[-0.3, -0.2, 0.2]} end={[0.9, 0.9, 0.4]} thickness={0.03} color="#64748b" />
       </group>
     </group>
   );
