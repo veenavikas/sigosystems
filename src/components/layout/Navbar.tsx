@@ -13,7 +13,7 @@ export function Navbar() {
 
   const navItems = [
     {
-      name: "Platforms",
+      name: "Verticals",
       hasDropdown: true,
       dropdownItems: [
         { name: "AIQU", desc: "Quantum-inspired intelligence core bridging classical and future systems.", href: "/aiqu" },
@@ -22,9 +22,6 @@ export function Navbar() {
         { name: "LABS", desc: "Exploratory R&D wing focused on prototypes and patent generation.", href: "/labs" },
       ]
     },
-    { name: "Solutions", href: "/solutions" },
-    { name: "Industries", href: "/industries" },
-    { name: "Insights", href: "/insights" },
     { name: "Company", href: "/company" },
   ];
 
@@ -70,10 +67,10 @@ export function Navbar() {
 
                 {/* Mega Menu Dropdown */}
                 {link.hasDropdown && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 translate-y-4 group-hover:translate-y-0">
+                  <div className="absolute top-full right-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 translate-y-4 group-hover:translate-y-0">
                     <div className="relative">
                       {/* Little triangle pointer */}
-                      <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-white transform rotate-45 border-l border-t border-gray-100 rounded-tl-sm"></div>
+                      <div className="absolute -top-2 right-10 w-4 h-4 bg-white transform rotate-45 border-l border-t border-gray-100 rounded-tl-sm"></div>
                       
                       <div className="bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-gray-100 p-6 flex gap-8 w-[800px] relative z-10">
                          {/* Left highlight block */}

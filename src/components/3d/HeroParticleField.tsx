@@ -4,11 +4,12 @@ import React, { useRef, useMemo } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { Line } from "@react-three/drei";
 
 function EyeOrbit() {
   const particleRef = useRef<THREE.Mesh>(null);
   
-  const { path, geometry } = useMemo(() => {
+  const { path, pts } = useMemo(() => {
     const topCurve = new THREE.QuadraticBezierCurve3(
       new THREE.Vector3(-3.5, 0, 0),
       new THREE.Vector3(0, 2.5, 0),
@@ -24,8 +25,7 @@ function EyeOrbit() {
     curvePath.add(bottomCurve);
     
     const pts = curvePath.getPoints(100);
-    const geo = new THREE.BufferGeometry().setFromPoints(pts);
-    return { path: curvePath, geometry: geo };
+    return { path: curvePath, pts };
   }, []);
 
   useFrame((state) => {
@@ -38,10 +38,8 @@ function EyeOrbit() {
 
   return (
     <group>
-      {/* 1px Thin line for the orbit path */}
-      <line geometry={geometry}>
-        <lineBasicMaterial color="#1E5FE0" transparent opacity={0.25} />
-      </line>
+      {/* 3px Thick line for the orbit path */}
+      <Line points={pts} color="#1E5FE0" lineWidth={3} transparent opacity={0.25} />
       
       {/* Orbiting Particle */}
       <mesh ref={particleRef}>
@@ -55,30 +53,34 @@ function EyeOrbit() {
 function InnerOrbit() {
   const particleRef = useRef<THREE.Mesh>(null);
 
-  const geometry = useMemo(() => {
-    const pts = [];
+  const pts = useMemo(() => {
+    const points = [];
     const radius = 1.8;
     for(let i=0; i<=64; i++) {
       const angle = (i/64) * Math.PI * 2;
-      pts.push(new THREE.Vector3(Math.cos(angle)*radius, Math.sin(angle)*radius, 0));
+      points.push(new THREE.Vector3(Math.cos(angle)*radius, Math.sin(angle)*radius, 0));
     }
-    return new THREE.BufferGeometry().setFromPoints(pts);
+    return points;
   }, []);
 
-  useFrame((state) => {
+  const groupRef = useRef<THREE.Group>(null);
+
+  useFrame((state, delta) => {
     if (particleRef.current) {
       const angle = state.clock.elapsedTime * -1.2; // Fast inner orbit, opposite direction
       particleRef.current.position.x = Math.cos(angle) * 1.8;
       particleRef.current.position.y = Math.sin(angle) * 1.8;
     }
+    if (groupRef.current) {
+      // Rotate vertically
+      groupRef.current.rotation.x += delta * 0.8;
+    }
   });
 
   return (
     // Tilted ring to match the logo's inner swoosh orientation
-    <group rotation={[1.0, 0.4, 0]}>
-      <line geometry={geometry}>
-        <lineBasicMaterial color="#1E5FE0" transparent opacity={0.25} />
-      </line>
+    <group ref={groupRef} rotation={[1.0, 0.4, 0]}>
+      <Line points={pts} color="#1E5FE0" lineWidth={3} transparent opacity={0.25} />
       <mesh ref={particleRef}>
         <sphereGeometry args={[0.06, 16, 16]} />
         <meshBasicMaterial color="#1E5FE0" />

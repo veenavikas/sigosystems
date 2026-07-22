@@ -18,10 +18,6 @@ const HeroParticleField = dynamic(
   { ssr: false }
 );
 
-const QuantumParticleField = dynamic(
-  () => import("@/components/3d/QuantumParticleField").then((mod) => mod.QuantumParticleField),
-  { ssr: false }
-);
 
 export default function AIQUPage() {
   return (
@@ -58,7 +54,7 @@ export default function AIQUPage() {
             subtitle="Precision-engineered modules for automation and optimization."
             className="mb-16"
           />
-          <CardGrid columns={5}>
+          <CardGrid columns={3}>
             <Card icon={<ScanEye />} title="Computer Vision Modules" description="Edge-optimized object detection, tracking, and spatial analysis for industrial automation and autonomous robotics." />
             <Card icon={<LineChart />} title="Predictive Analytics Engines" description="Proactive forecasting frameworks that anticipate market shifts and operational anomalies before they occur." />
             <Card icon={<Cpu />} title="Edge AI Inference Kits" description="Low-latency, high-efficiency model deployment specialized for resource-constrained embedded environments." />
@@ -75,7 +71,7 @@ export default function AIQUPage() {
             title="Integrated Services Section" 
             className="mb-16"
           />
-          <CardGrid columns={5}>
+          <CardGrid columns={3}>
             <Card icon={<Code />} title="Custom AI/ML Development" description="Bespoke model architectures designed for proprietary data environments, ensuring maximum performance and institutional security." />
             <Card icon={<Atom />} title="Quantum-Readiness Consulting" description="Prepare your current digital infrastructure for the next computational leap. We evaluate algorithms and engineer paths for future quantum compatibility." />
             <Card icon={<Settings2 />} title="Legacy Modernization" description="Seamlessly inject cognitive intelligence and analytics layers into your existing legacy technology stack without forcing a total system overhaul." />
@@ -86,44 +82,43 @@ export default function AIQUPage() {
       </section>
 
       {/* Quantum Sensing Spotlight Section */}
-      <section id="quantum-sensing" className="relative py-24 text-slate-100 overflow-hidden">
-        <QuantumParticleField />
+      <section id="quantum-sensing" className="relative py-24 text-slate-800 overflow-hidden bg-white">
+
         <div className="relative z-10 container mx-auto px-6">
           <div className="text-center mb-16">
-            <h3 className="text-tertiary font-bold tracking-widest uppercase text-sm mb-2">NEXT-GEN NAVIGATION</h3>
-            <h2 className="text-3xl md:text-5xl font-bold font-heading mb-6 text-white">
+            <h3 className="text-[#1E5FE0] font-bold tracking-widest uppercase text-sm mb-2">NEXT-GEN NAVIGATION</h3>
+            <h2 className="text-3xl md:text-5xl font-bold font-heading mb-6 text-[#0B2559]">
               Navigation Beyond GPS: Quantum Sensing
             </h2>
-            <p className="text-inverse-on-surface max-w-4xl mx-auto text-lg mb-8">
+            <p className="text-slate-600 max-w-4xl mx-auto text-lg mb-8">
               When satellite signals fail or are actively jammed, traditional navigation drifts. SIGO AIQU is bridging the gap between hardware and software by deploying quantum sensing technologies. By utilizing atom interferometry and quantum magnetometry, we enable absolute positioning accuracy in GPS-denied environments– allowing maritime, aerospace, and autonomous systems to navigate confidently anywhere on Earth.
             </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-            {/* Dark theme specifically for these cards */}
-            <div className="bg-slate-800/80 border border-outline backdrop-blur-sm rounded-xl p-6 shadow-lg">
-              <h4 className="font-bold text-white mb-2">Quantum Inertial Measurement Units (Q-IMU)</h4>
-              <p className="text-outline-variant text-sm">Next-generation navigation hardware utilizing atom interferometry for ultra-precise acceleration and rotation tracking without external reference signals.</p>
+            <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+              <h4 className="font-bold text-[#0B2559] mb-2">Quantum Inertial Measurement Units (Q-IMU)</h4>
+              <p className="text-slate-600 text-sm">Next-generation navigation hardware utilizing atom interferometry for ultra-precise acceleration and rotation tracking without external reference signals.</p>
             </div>
-            <div className="bg-slate-800/80 border border-outline backdrop-blur-sm rounded-xl p-6 shadow-lg">
-              <h4 className="font-bold text-white mb-2">Geomagnetic Navigation Engines</h4>
-              <p className="text-outline-variant text-sm">AI-driven mapping software that leverages high-sensitivity quantum magnetometers to navigate using Earth's unique magnetic anomalies.</p>
+            <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+              <h4 className="font-bold text-[#0B2559] mb-2">Geomagnetic Navigation Engines</h4>
+              <p className="text-slate-600 text-sm">AI-driven mapping software that leverages high-sensitivity quantum magnetometers to navigate using Earth's unique magnetic anomalies.</p>
             </div>
-            <div className="bg-slate-800/80 border border-outline backdrop-blur-sm rounded-xl p-6 shadow-lg">
-              <h4 className="font-bold text-white mb-2">GPS-Denied Navigation Integration</h4>
-              <p className="text-outline-variant text-sm">Designing fallback and primary positioning architectures for aerospace, maritime, and defense systems operating in jammed or compromised environments.</p>
+            <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+              <h4 className="font-bold text-[#0B2559] mb-2">GPS-Denied Navigation Integration</h4>
+              <p className="text-slate-600 text-sm">Designing fallback and primary positioning architectures for aerospace, maritime, and defense systems operating in jammed or compromised environments.</p>
             </div>
-            <div className="bg-slate-800/80 border border-outline backdrop-blur-sm rounded-xl p-6 shadow-lg">
-              <h4 className="font-bold text-white mb-2">Quantum Magnetometry Data Mapping</h4>
-              <p className="text-outline-variant text-sm">High-fidelity spatial analytics mapping local magnetic fields to build secure navigation reference grids.</p>
+            <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+              <h4 className="font-bold text-[#0B2559] mb-2">Quantum Magnetometry Data Mapping</h4>
+              <p className="text-slate-600 text-sm">High-fidelity spatial analytics mapping local magnetic fields to build secure navigation reference grids.</p>
             </div>
           </div>
           
-          <div className="text-center mb-6"><h4 className="text-white font-bold text-lg">Key Capabilities</h4></div>
+          <div className="text-center mb-6"><h4 className="text-[#0B2559] font-bold text-lg">Key Capabilities</h4></div>
           <div className="flex flex-wrap justify-center gap-4 mb-20">
-            <span className="px-4 py-2 rounded-full bg-tertiary-container/10 text-tertiary border border-tertiary/20 text-sm font-medium">Zero-drift inertial tracking via quantum optics</span>
-            <span className="px-4 py-2 rounded-full bg-tertiary-container/10 text-tertiary border border-tertiary/20 text-sm font-medium">Sub-surface and high-interference magnetic pathfinding</span>
-            <span className="px-4 py-2 rounded-full bg-tertiary-container/10 text-tertiary border border-tertiary/20 text-sm font-medium">Seamless fallback software layers for existing autonomous guidance systems</span>
+            <span className="px-4 py-2 rounded-full bg-[#1E5FE0]/10 text-[#1E5FE0] border border-[#1E5FE0]/20 text-sm font-medium">Zero-drift inertial tracking via quantum optics</span>
+            <span className="px-4 py-2 rounded-full bg-[#1E5FE0]/10 text-[#1E5FE0] border border-[#1E5FE0]/20 text-sm font-medium">Sub-surface and high-interference magnetic pathfinding</span>
+            <span className="px-4 py-2 rounded-full bg-[#1E5FE0]/10 text-[#1E5FE0] border border-[#1E5FE0]/20 text-sm font-medium">Seamless fallback software layers for existing autonomous guidance systems</span>
           </div>
         </div>
       </section>

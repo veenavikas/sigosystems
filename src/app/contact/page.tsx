@@ -3,43 +3,86 @@ import { ContactForm } from "@/components/ui/ContactForm";
 
 export default function ContactPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-surface-container-low">
-      <section className="py-24 md:py-32">
-        <div className="container mx-auto px-6">
-          <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-12">
+    <div className="flex flex-col min-h-screen bg-white">
+      {/* Premium Header */}
+      <section className="relative w-full pt-40 pb-20 overflow-hidden bg-[#001848]">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#1E5FE0]/20 via-transparent to-transparent pointer-events-none"></div>
+        <div className="relative z-10 container mx-auto px-6 max-w-7xl">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-6 shadow-sm">
+            <span className="w-2 h-2 rounded-full bg-[#1E5FE0] animate-pulse"></span>
+            <span className="text-[#b2c5ff] font-bold tracking-[0.2em] uppercase text-xs">Reach Out</span>
+          </div>
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white mb-6 font-heading">
+            Let's design <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1E5FE0] to-[#b2c5ff]">the future.</span>
+          </h1>
+          <p className="text-xl text-[#9bcbff] font-light max-w-2xl leading-relaxed">
+            Partner with SIGO Systems to deploy quantum-inspired intelligence into your most mission-critical operations.
+          </p>
+        </div>
+      </section>
+
+      {/* Main Content */}
+      <section className="py-24 relative">
+        <div className="container mx-auto px-6 max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24">
             
             {/* Left side info */}
-            <div className="flex-1">
-              <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-on-background mb-6 font-heading">
-                Let's discuss the future.
-              </h1>
-              <p className="text-lg text-on-surface-variant mb-8">
-                Request a technical brief, schedule a demo, or connect with our specialized teams across AIQU, GIS, ACADEMY, and LABS.
-              </p>
+            <div className="lg:col-span-5 space-y-12">
+              <div>
+                <h3 className="text-3xl font-bold text-[#0B2559] mb-4 font-heading">Global Headquarters</h3>
+                <p className="text-lg text-slate-600 mb-8 leading-relaxed">
+                  Our core engineering and leadership teams are based in India's premier tech ecosystem.
+                </p>
+              </div>
               
-              <div className="space-y-6">
-                <div>
-                  <h4 className="font-bold text-on-background">Headquarters</h4>
-                  <p className="text-on-surface-variant text-sm mt-1">
-                    6th Floor, T Hub<br />
-                    Plot No 1/C, Sy No 83/1, Raidurgam Panmaktha<br />
-                    Hyderabad Knowledge City, Serilingampally<br />
-                    Hyderabad, Telangana 500081
-                  </p>
+              <div className="space-y-8">
+                <div className="flex gap-6">
+                  <div className="w-14 h-14 rounded-2xl bg-[#f4f7fc] border border-[#e7eeff] flex items-center justify-center shrink-0 shadow-sm text-[#1E5FE0]">
+                    <span className="material-symbols-outlined text-2xl">location_on</span>
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-[#0B2559] text-lg mb-2">Hyderabad Office</h4>
+                    <p className="text-slate-600 leading-relaxed">
+                      6th Floor, T Hub<br />
+                      Plot No 1/C, Sy No 83/1, Raidurgam Panmaktha<br />
+                      Hyderabad Knowledge City, Serilingampally<br />
+                      Hyderabad, Telangana 500081
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-bold text-on-background">Contact</h4>
-                  <p className="text-on-surface-variant text-sm mt-1">
-                    contact@sigosys.com<br />
-                    +919700144794
-                  </p>
+
+                <div className="flex gap-6">
+                  <div className="w-14 h-14 rounded-2xl bg-[#f4f7fc] border border-[#e7eeff] flex items-center justify-center shrink-0 shadow-sm text-[#1E5FE0]">
+                    <span className="material-symbols-outlined text-2xl">mail</span>
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-[#0B2559] text-lg mb-2">Email</h4>
+                    <p className="text-slate-600 leading-relaxed">
+                      <a href="mailto:contact@sigosys.com" className="hover:text-[#1E5FE0] transition-colors">contact@sigosys.com</a>
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex gap-6">
+                  <div className="w-14 h-14 rounded-2xl bg-[#f4f7fc] border border-[#e7eeff] flex items-center justify-center shrink-0 shadow-sm text-[#1E5FE0]">
+                    <span className="material-symbols-outlined text-2xl">call</span>
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-[#0B2559] text-lg mb-2">Phone</h4>
+                    <p className="text-slate-600 leading-relaxed">
+                      <a href="tel:+919700144794" className="hover:text-[#1E5FE0] transition-colors">+91 9700144794</a>
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
             
             {/* Right side form */}
-            <div className="flex-1 w-full max-w-md">
-              <ContactForm />
+            <div className="lg:col-span-7">
+              <div className="bg-white rounded-[2.5rem] p-8 md:p-12 shadow-[0_20px_50px_rgba(20,60,150,0.08)] border border-[#EDF2FA]">
+                <h3 className="text-2xl font-bold text-[#0B2559] mb-8 font-heading">Send a Message</h3>
+                <ContactForm />
+              </div>
             </div>
 
           </div>
