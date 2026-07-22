@@ -7,8 +7,8 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { CardGrid, Card } from "@/components/ui/CardGrid";
 import { CTAButton } from "@/components/ui/CTAButton";
 
-const GISGlobe = dynamic(
-  () => import("@/components/3d/GISGlobe").then((mod) => mod.GISGlobe),
+const HeroParticleField = dynamic(
+  () => import("@/components/3d/HeroParticleField").then((mod) => mod.HeroParticleField),
   { ssr: false }
 );
 
@@ -18,7 +18,7 @@ export default function GISPage() {
       {/* Hero Section */}
       <section className="relative w-full py-32 md:py-48 flex flex-col items-center justify-center overflow-hidden bg-white">
         <div className="absolute inset-0 z-0 opacity-50 mix-blend-multiply">
-          <GISGlobe />
+          <HeroParticleField />
         </div>
         <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-b from-transparent to-white pointer-events-none z-10"></div>
         
