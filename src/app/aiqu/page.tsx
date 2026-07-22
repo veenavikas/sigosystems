@@ -27,11 +27,10 @@ export default function AIQUPage() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="relative w-full py-32 md:py-48 flex flex-col items-center justify-center overflow-hidden bg-[#000a1f]">
+      <section className="relative w-full py-32 md:py-48 flex flex-col items-center justify-center overflow-hidden bg-[#000000]">
         <div className="absolute inset-0 z-0 opacity-50 mix-blend-screen">
           <HeroParticleField />
         </div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#1E5FE0] rounded-full blur-[150px] opacity-[0.1] pointer-events-none z-0"></div>
         <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-b from-transparent to-white pointer-events-none z-10"></div>
         
         <div className="relative z-20 container mx-auto px-6 md:px-12 text-center">

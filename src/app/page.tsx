@@ -35,16 +35,15 @@ export default function Home() {
 
   return (
     <main className="pb-[80px] min-h-[max(884px,100dvh)]">
-      {/* Cinematic Hero Section */}
-      <section className="relative h-[850px] flex flex-col items-center justify-center px-6 md:px-12 text-center overflow-hidden bg-[#000a1f]">
-        {/* Three.js Visual Centerpiece */}
-        <div className="absolute inset-0 z-0 opacity-60 mix-blend-screen">
+      {/* Hero Section */}
+      <section className="relative h-[850px] flex flex-col items-center justify-center px-6 md:px-12 text-center overflow-hidden bg-[#000000]">
+        
+        {/* Background 3D Effect / Ambient glow */}
+        <div className="absolute inset-0 z-0">
           <HeroParticleField />
         </div>
         
-        {/* Glow Effects */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#1E5FE0] rounded-full blur-[200px] opacity-[0.15] pointer-events-none z-0"></div>
-        <div className="absolute bottom-0 inset-x-0 h-48 bg-gradient-to-b from-transparent to-[#f9f9ff] pointer-events-none z-10"></div>
+        <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-b from-transparent to-white pointer-events-none z-10"></div>
 
         <div className="relative z-20 w-full max-w-4xl mx-auto">
           <div className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-8 shadow-[0_0_30px_rgba(30,95,224,0.2)] reveal-text" style={{ animationDelay: '0.1s' }}>
