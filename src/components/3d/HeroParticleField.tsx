@@ -87,33 +87,52 @@ function InnerOrbit() {
   );
 }
 
-function TheSun() {
-  const sunRef = useRef<THREE.Mesh>(null);
-  const shellRef = useRef<THREE.Mesh>(null);
+function ThinLine({ start, end, color = "#94a3b8" }: any) {
+  const points = [new THREE.Vector3(...start), new THREE.Vector3(...end)];
+  const geometry = new THREE.BufferGeometry().setFromPoints(points);
+  
+  return (
+    <line geometry={geometry}>
+      <lineBasicMaterial color={color} transparent opacity={0.6} />
+    </line>
+  );
+}
+
+function TheSunMolecule() {
+  const groupRef = useRef<THREE.Group>(null);
   
   useFrame((state, delta) => {
-    if (sunRef.current) {
-      sunRef.current.rotation.y += delta * 0.5;
-      sunRef.current.rotation.x += delta * 0.3;
-    }
-    if (shellRef.current) {
-      shellRef.current.rotation.y -= delta * 0.2;
-      shellRef.current.rotation.z += delta * 0.1;
+    if (groupRef.current) {
+      // Spin the entire molecule like a central sun/core
+      groupRef.current.rotation.y += delta * 0.4;
+      groupRef.current.rotation.x += delta * 0.2;
+      groupRef.current.rotation.z += delta * 0.1;
     }
   });
 
   return (
-    <group>
-      {/* Solid inner core */}
-      <mesh ref={sunRef}>
-        <icosahedronGeometry args={[0.25, 1]} />
-        <meshBasicMaterial color="#1E5FE0" wireframe />
+    <group ref={groupRef}>
+      {/* Center Main Node */}
+      <mesh position={[-0.3, -0.2, 0.2]}>
+        <sphereGeometry args={[0.22, 16, 16]} />
+        <meshBasicMaterial color="#64748b" wireframe transparent opacity={0.6} />
       </mesh>
-      {/* Expanding wireframe shell */}
-      <mesh ref={shellRef}>
-        <icosahedronGeometry args={[0.45, 2]} />
-        <meshBasicMaterial color="#94a3b8" wireframe transparent opacity={0.3} />
+      
+      {/* Top Left Node */}
+      <mesh position={[-1.1, 0.7, 0.0]}>
+        <sphereGeometry args={[0.15, 16, 16]} />
+        <meshBasicMaterial color="#94a3b8" wireframe transparent opacity={0.6} />
       </mesh>
+      
+      {/* Top Right Node */}
+      <mesh position={[0.9, 0.9, 0.4]}>
+        <sphereGeometry args={[0.15, 16, 16]} />
+        <meshBasicMaterial color="#94a3b8" wireframe transparent opacity={0.6} />
+      </mesh>
+
+      {/* Graph Connections (1px thin lines) */}
+      <ThinLine start={[-0.3, -0.2, 0.2]} end={[-1.1, 0.7, 0.0]} color="#64748b" />
+      <ThinLine start={[-0.3, -0.2, 0.2]} end={[0.9, 0.9, 0.4]} color="#64748b" />
     </group>
   );
 }
@@ -133,7 +152,7 @@ function AnimatedLogoScene() {
 
   return (
     <group ref={groupRef} scale={1.2}>
-      <TheSun />
+      <TheSunMolecule />
       <InnerOrbit />
       <EyeOrbit />
     </group>
