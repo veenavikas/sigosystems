@@ -5,137 +5,137 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 
-function createShapes() {
-  // Top Eye Arc
-  const topShape = new THREE.Shape();
-  topShape.moveTo(2.8, 0); // right tip
-  // Inner arc going left
-  topShape.quadraticCurveTo(0.2, 1.6, -2.6, -0.3); // sharp left tip
-  // Outer arc returning right
-  topShape.quadraticCurveTo(0.2, 2.5, 2.8, 0);
-
-  // Bottom Eye Arc (Tapered right, blunt left)
-  const bottomShape = new THREE.Shape();
-  bottomShape.moveTo(2.7, -0.1); // right tip (joins top tip)
-  // Inner arc going left
-  bottomShape.quadraticCurveTo(0.2, -1.6, -1.9, -0.7);
-  // Blunt cut
-  bottomShape.lineTo(-2.0, -1.0);
-  // Outer arc returning right
-  bottomShape.quadraticCurveTo(0.2, -2.2, 2.7, -0.1);
-
-  // Orbiting Swoosh ring
-  const swooshShape = new THREE.Shape();
-  // Starts thick at the right
-  swooshShape.moveTo(1.2, 0.3);
-  // Sweeps left and tapers to a sharp point
-  swooshShape.quadraticCurveTo(0, -0.6, -1.5, -0.3);
-  // Sweeps back thick
-  swooshShape.quadraticCurveTo(0, -1.0, 1.3, -0.1);
+function EyeOrbit() {
+  const particleRef = useRef<THREE.Mesh>(null);
   
-  return { topShape, bottomShape, swooshShape };
-}
+  const { path, geometry } = useMemo(() => {
+    const topCurve = new THREE.QuadraticBezierCurve3(
+      new THREE.Vector3(-3.5, 0, 0),
+      new THREE.Vector3(0, 2.5, 0),
+      new THREE.Vector3(3.5, 0, 0)
+    );
+    const bottomCurve = new THREE.QuadraticBezierCurve3(
+      new THREE.Vector3(3.5, 0, 0),
+      new THREE.Vector3(0, -2.5, 0),
+      new THREE.Vector3(-3.5, 0, 0)
+    );
+    const curvePath = new THREE.CurvePath<THREE.Vector3>();
+    curvePath.add(topCurve);
+    curvePath.add(bottomCurve);
+    
+    const pts = curvePath.getPoints(100);
+    const geo = new THREE.BufferGeometry().setFromPoints(pts);
+    return { path: curvePath, geometry: geo };
+  }, []);
 
-const extrudeSettings = {
-  depth: 0.05,
-  bevelEnabled: false,
-};
-
-function CylinderLine({ start, end, thickness = 0.02, color = "#94a3b8" }: any) {
-  const vStart = new THREE.Vector3(...start);
-  const vEnd = new THREE.Vector3(...end);
-  const distance = vStart.distanceTo(vEnd);
-  const position = vStart.clone().lerp(vEnd, 0.5);
-  
-  const quaternion = new THREE.Quaternion();
-  const direction = new THREE.Vector3().subVectors(vEnd, vStart).normalize();
-  quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction);
+  useFrame((state) => {
+    if (particleRef.current) {
+      const t = (state.clock.elapsedTime * 0.15) % 1; // Orbit speed
+      const pos = path.getPointAt(t);
+      particleRef.current.position.copy(pos);
+    }
+  });
 
   return (
-    <mesh position={position} quaternion={quaternion}>
-      <cylinderGeometry args={[thickness, thickness, distance, 8]} />
-      <meshBasicMaterial color={color} wireframe transparent opacity={0.3} />
-    </mesh>
+    <group>
+      {/* 1px Thin line for the orbit path */}
+      <line geometry={geometry}>
+        <lineBasicMaterial color="#1E5FE0" transparent opacity={0.25} />
+      </line>
+      
+      {/* Orbiting Particle */}
+      <mesh ref={particleRef}>
+        <sphereGeometry args={[0.08, 16, 16]} />
+        <meshBasicMaterial color="#1E5FE0" />
+      </mesh>
+    </group>
+  );
+}
+
+function InnerOrbit() {
+  const particleRef = useRef<THREE.Mesh>(null);
+
+  const geometry = useMemo(() => {
+    const pts = [];
+    const radius = 1.8;
+    for(let i=0; i<=64; i++) {
+      const angle = (i/64) * Math.PI * 2;
+      pts.push(new THREE.Vector3(Math.cos(angle)*radius, Math.sin(angle)*radius, 0));
+    }
+    return new THREE.BufferGeometry().setFromPoints(pts);
+  }, []);
+
+  useFrame((state) => {
+    if (particleRef.current) {
+      const angle = state.clock.elapsedTime * -1.2; // Fast inner orbit, opposite direction
+      particleRef.current.position.x = Math.cos(angle) * 1.8;
+      particleRef.current.position.y = Math.sin(angle) * 1.8;
+    }
+  });
+
+  return (
+    // Tilted ring to match the logo's inner swoosh orientation
+    <group rotation={[1.0, 0.4, 0]}>
+      <line geometry={geometry}>
+        <lineBasicMaterial color="#1E5FE0" transparent opacity={0.25} />
+      </line>
+      <mesh ref={particleRef}>
+        <sphereGeometry args={[0.06, 16, 16]} />
+        <meshBasicMaterial color="#1E5FE0" />
+      </mesh>
+    </group>
+  );
+}
+
+function TheSun() {
+  const sunRef = useRef<THREE.Mesh>(null);
+  const shellRef = useRef<THREE.Mesh>(null);
+  
+  useFrame((state, delta) => {
+    if (sunRef.current) {
+      sunRef.current.rotation.y += delta * 0.5;
+      sunRef.current.rotation.x += delta * 0.3;
+    }
+    if (shellRef.current) {
+      shellRef.current.rotation.y -= delta * 0.2;
+      shellRef.current.rotation.z += delta * 0.1;
+    }
+  });
+
+  return (
+    <group>
+      {/* Solid inner core */}
+      <mesh ref={sunRef}>
+        <icosahedronGeometry args={[0.25, 1]} />
+        <meshBasicMaterial color="#1E5FE0" wireframe />
+      </mesh>
+      {/* Expanding wireframe shell */}
+      <mesh ref={shellRef}>
+        <icosahedronGeometry args={[0.45, 2]} />
+        <meshBasicMaterial color="#94a3b8" wireframe transparent opacity={0.3} />
+      </mesh>
+    </group>
   );
 }
 
 function AnimatedLogoScene() {
   const groupRef = useRef<THREE.Group>(null);
-  const ringRef = useRef<THREE.Group>(null);
   const { pointer } = useThree();
   
-  const { topShape, bottomShape, swooshShape } = useMemo(createShapes, []);
-
-  useFrame((state, delta) => {
+  useFrame((state) => {
     if (groupRef.current) {
       const time = state.clock.elapsedTime;
-      // Mouse tracking and gentle float
-      groupRef.current.rotation.y = Math.sin(time * 0.4) * 0.15 + (pointer.x * 0.1);
-      groupRef.current.rotation.x = Math.cos(time * 0.3) * 0.05 - (pointer.y * 0.1);
-      groupRef.current.position.y = Math.sin(time * 1.5) * 0.05;
-    }
-    
-    if (ringRef.current) {
-      // Rotate the inner swoosh and dot
-      ringRef.current.rotation.z -= delta * 1.2;
+      // Mouse tracking and gentle float for the whole system
+      groupRef.current.rotation.y = Math.sin(time * 0.2) * 0.1 + (pointer.x * 0.05);
+      groupRef.current.rotation.x = Math.cos(time * 0.2) * 0.1 - (pointer.y * 0.05);
     }
   });
 
   return (
-    <group ref={groupRef} scale={1.4}>
-      
-      {/* Top Eye Arch */}
-      <mesh position={[0, 0, -0.025]}>
-        <extrudeGeometry args={[topShape, extrudeSettings]} />
-        <meshBasicMaterial color="#1E5FE0" wireframe transparent opacity={0.15} />
-      </mesh>
-      
-      {/* Bottom Eye Arch */}
-      <mesh position={[0, 0, -0.025]}>
-        <extrudeGeometry args={[bottomShape, extrudeSettings]} />
-        <meshBasicMaterial color="#1E5FE0" wireframe transparent opacity={0.15} />
-      </mesh>
-
-      {/* Orbiting Swoosh */}
-      <group rotation={[1.0, 0.4, 0]}>
-        <group ref={ringRef}>
-          {/* Sweeping Tail */}
-          <mesh position={[0, 0, -0.025]}>
-            <extrudeGeometry args={[swooshShape, { ...extrudeSettings, depth: 0.05 }]} />
-            <meshBasicMaterial color="#1E5FE0" wireframe transparent opacity={0.2} />
-          </mesh>
-          {/* Orbiting Dot */}
-          <mesh position={[1.25, 0.1, 0]}>
-            <sphereGeometry args={[0.1, 16, 16]} />
-            <meshBasicMaterial color="#1E5FE0" wireframe transparent opacity={0.4} />
-          </mesh>
-        </group>
-      </group>
-
-      {/* Center Graph / Molecule */}
-      <group>
-        {/* Center Main Node */}
-        <mesh position={[-0.3, -0.2, 0.2]}>
-          <sphereGeometry args={[0.15, 16, 16]} />
-          <meshBasicMaterial color="#64748b" wireframe transparent opacity={0.4} />
-        </mesh>
-        
-        {/* Top Left Node */}
-        <mesh position={[-1.1, 0.7, 0.0]}>
-          <sphereGeometry args={[0.1, 16, 16]} />
-          <meshBasicMaterial color="#94a3b8" wireframe transparent opacity={0.4} />
-        </mesh>
-        
-        {/* Top Right Node */}
-        <mesh position={[0.9, 0.9, 0.4]}>
-          <sphereGeometry args={[0.1, 16, 16]} />
-          <meshBasicMaterial color="#94a3b8" wireframe transparent opacity={0.4} />
-        </mesh>
-
-        {/* Graph Connections */}
-        <CylinderLine start={[-0.3, -0.2, 0.2]} end={[-1.1, 0.7, 0.0]} thickness={0.03} color="#64748b" />
-        <CylinderLine start={[-0.3, -0.2, 0.2]} end={[0.9, 0.9, 0.4]} thickness={0.03} color="#64748b" />
-      </group>
+    <group ref={groupRef} scale={1.2}>
+      <TheSun />
+      <InnerOrbit />
+      <EyeOrbit />
     </group>
   );
 }
