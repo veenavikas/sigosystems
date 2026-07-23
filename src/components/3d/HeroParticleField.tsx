@@ -79,7 +79,7 @@ function Connection({ start, end, color = "#333333", thickness = 0.05 }: any) {
   );
 }
 
-function TheSunMolecule({ moleculeRef }: { moleculeRef: React.RefObject<THREE.Group> }) {
+function TheSunMolecule({ moleculeRef }: { moleculeRef: any }) {
   return (
     <group ref={moleculeRef}>
       {/* Center Main Node */}
