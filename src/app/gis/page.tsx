@@ -17,9 +17,7 @@ export default function GISPage() {
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
       <section className="relative w-full py-32 md:py-48 flex flex-col items-center justify-center overflow-hidden bg-white">
-        <div className="absolute inset-0 z-0 opacity-50 mix-blend-multiply">
-          <HeroParticleField />
-        </div>
+
         <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-b from-transparent to-white pointer-events-none z-10"></div>
         
         <div className="relative z-20 container mx-auto px-6 md:px-12 text-center">
@@ -33,6 +31,9 @@ export default function GISPage() {
           <p className="text-lg md:text-xl text-slate-600 max-w-4xl mx-auto font-light mb-8 leading-relaxed opacity-90">
             Turn location data into a distinct competitive advantage. SIGO GIS applies consolidated analytics to geographical datasets to map out risk, optimize networks, and streamline global logistics.
           </p>
+          <div className="-mt-4 w-full">
+            <HeroParticleField />
+          </div>
         </div>
       </section>
 

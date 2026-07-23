@@ -17,9 +17,7 @@ export default function LabsPage() {
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
       <section className="relative w-full py-32 md:py-48 flex flex-col items-center justify-center overflow-hidden bg-white">
-        <div className="absolute inset-0 z-0 opacity-50 mix-blend-multiply">
-          <HeroParticleField />
-        </div>
+
         <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-b from-transparent to-white pointer-events-none z-10"></div>
         
         <div className="relative z-20 container mx-auto px-6 md:px-12 text-center">
@@ -33,10 +31,13 @@ export default function LabsPage() {
           <p className="text-lg md:text-xl text-slate-600 max-w-4xl mx-auto font-light mb-10 leading-relaxed opacity-90">
             The shared collaborative core of Sigo Systems—powering rapid prototyping, cross-vertical technology reuse, and foundational intellectual property generation.
           </p>
-          <div className="flex justify-center">
+          <div className="flex justify-center mb-12">
             <CTAButton href="/contact" variant="primary">
               Learn More
             </CTAButton>
+          </div>
+          <div className="-mt-4 w-full">
+            <HeroParticleField />
           </div>
         </div>
       </section>
