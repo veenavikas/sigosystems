@@ -6,10 +6,9 @@ import * as THREE from "three";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { Line } from "@react-three/drei";
 
+
 function EyeOrbit() {
-  const particleRef = useRef<THREE.Mesh>(null);
-  
-  const { path, pts } = useMemo(() => {
+  const pts = useMemo(() => {
     const topCurve = new THREE.QuadraticBezierCurve3(
       new THREE.Vector3(-3.5, 0, 0),
       new THREE.Vector3(0, 2.5, 0),
@@ -24,38 +23,21 @@ function EyeOrbit() {
     curvePath.add(topCurve);
     curvePath.add(bottomCurve);
     
-    const pts = curvePath.getPoints(100);
-    return { path: curvePath, pts };
+    return curvePath.getPoints(100);
   }, []);
-
-  useFrame((state) => {
-    if (particleRef.current) {
-      const t = (state.clock.elapsedTime * 0.15) % 1; // Orbit speed
-      const pos = path.getPointAt(t);
-      particleRef.current.position.copy(pos);
-    }
-  });
 
   return (
     <group>
-      {/* 3px Thick line for the orbit path */}
-      <Line points={pts} color="#1E5FE0" lineWidth={3} transparent opacity={0.25} />
-      
-      {/* Orbiting Particle */}
-      <mesh ref={particleRef}>
-        <sphereGeometry args={[0.08, 16, 16]} />
-        <meshBasicMaterial color="#1E5FE0" />
-      </mesh>
+      {/* Thicker line for the orbit path (Eye shape) */}
+      <Line points={pts} color="#1E5FE0" lineWidth={6} transparent opacity={0.9} />
     </group>
   );
 }
 
 function InnerOrbit() {
-  const particleRef = useRef<THREE.Mesh>(null);
-
   const pts = useMemo(() => {
     const points = [];
-    const radius = 1.8;
+    const radius = 1.3; // smaller so it's inside
     for(let i=0; i<=64; i++) {
       const angle = (i/64) * Math.PI * 2;
       points.push(new THREE.Vector3(Math.cos(angle)*radius, Math.sin(angle)*radius, 0));
@@ -63,95 +45,80 @@ function InnerOrbit() {
     return points;
   }, []);
 
-  const groupRef = useRef<THREE.Group>(null);
-
-  useFrame((state, delta) => {
-    if (particleRef.current) {
-      const angle = state.clock.elapsedTime * -1.2; // Fast inner orbit, opposite direction
-      particleRef.current.position.x = Math.cos(angle) * 1.8;
-      particleRef.current.position.y = Math.sin(angle) * 1.8;
-    }
-    if (groupRef.current) {
-      // Rotate vertically
-      groupRef.current.rotation.x += delta * 0.8;
-    }
-  });
-
+  // Static inner orbit with the blue dot matching the logo
   return (
-    // Tilted ring to match the logo's inner swoosh orientation
-    <group ref={groupRef} rotation={[1.0, 0.4, 0]}>
-      <Line points={pts} color="#1E5FE0" lineWidth={3} transparent opacity={0.25} />
-      <mesh ref={particleRef}>
-        <sphereGeometry args={[0.06, 16, 16]} />
+    <group rotation={[1.0, 0.4, 0]}>
+      <Line points={pts} color="#1E5FE0" lineWidth={4} transparent opacity={0.9} />
+      {/* The blue dot on the orbit ring */}
+      <mesh position={[1.3, 0, 0]}>
+        <sphereGeometry args={[0.12, 16, 16]} />
         <meshBasicMaterial color="#1E5FE0" />
       </mesh>
     </group>
   );
 }
 
-function ThinLine({ start, end, color = "#94a3b8" }: any) {
+function ThinLine({ start, end, color = "#475569" }: any) {
   const points = [new THREE.Vector3(...start), new THREE.Vector3(...end)];
   return (
-    <Line points={points} color={color} lineWidth={1} transparent opacity={0.6} />
+    <Line points={points} color={color} lineWidth={4} transparent opacity={0.9} />
   );
 }
 
 function TheSunMolecule() {
-  const groupRef = useRef<THREE.Group>(null);
-  
-  useFrame((state, delta) => {
-    if (groupRef.current) {
-      // Spin the entire molecule like a central sun/core
-      groupRef.current.rotation.y += delta * 0.4;
-      groupRef.current.rotation.x += delta * 0.2;
-      groupRef.current.rotation.z += delta * 0.1;
-    }
-  });
-
   return (
-    <group ref={groupRef}>
+    <group>
       {/* Center Main Node */}
-      <mesh position={[-0.3, -0.2, 0.2]}>
-        <sphereGeometry args={[0.22, 16, 16]} />
-        <meshBasicMaterial color="#64748b" wireframe transparent opacity={0.6} />
+      <mesh position={[0, 0, 0.2]}>
+        <sphereGeometry args={[0.25, 32, 32]} />
+        <meshBasicMaterial color="#475569" />
       </mesh>
       
       {/* Top Left Node */}
-      <mesh position={[-1.1, 0.7, 0.0]}>
-        <sphereGeometry args={[0.15, 16, 16]} />
-        <meshBasicMaterial color="#94a3b8" wireframe transparent opacity={0.6} />
+      <mesh position={[-1.0, 0.6, 0.0]}>
+        <sphereGeometry args={[0.15, 32, 32]} />
+        <meshBasicMaterial color="#475569" />
       </mesh>
       
       {/* Top Right Node */}
-      <mesh position={[0.9, 0.9, 0.4]}>
-        <sphereGeometry args={[0.15, 16, 16]} />
-        <meshBasicMaterial color="#94a3b8" wireframe transparent opacity={0.6} />
+      <mesh position={[0.9, 0.5, 0.4]}>
+        <sphereGeometry args={[0.15, 32, 32]} />
+        <meshBasicMaterial color="#475569" />
       </mesh>
 
-      {/* Graph Connections (1px thin lines) */}
-      <ThinLine start={[-0.3, -0.2, 0.2]} end={[-1.1, 0.7, 0.0]} color="#64748b" />
-      <ThinLine start={[-0.3, -0.2, 0.2]} end={[0.9, 0.9, 0.4]} color="#64748b" />
+      {/* Graph Connections */}
+      <ThinLine start={[0, 0, 0.2]} end={[-1.0, 0.6, 0.0]} color="#475569" />
+      <ThinLine start={[0, 0, 0.2]} end={[0.9, 0.5, 0.4]} color="#475569" />
     </group>
   );
 }
 
 function AnimatedLogoScene() {
   const groupRef = useRef<THREE.Group>(null);
+  const innerGroupRef = useRef<THREE.Group>(null);
   const { pointer } = useThree();
   
   useFrame((state) => {
     if (groupRef.current) {
       const time = state.clock.elapsedTime;
-      // Mouse tracking and gentle float for the whole system
-      groupRef.current.rotation.y = Math.sin(time * 0.2) * 0.1 + (pointer.x * 0.05);
-      groupRef.current.rotation.x = Math.cos(time * 0.2) * 0.1 - (pointer.y * 0.05);
+      // Mouse tracking and faster float for the whole system
+      groupRef.current.rotation.y = Math.sin(time * 0.6) * 0.15 + (pointer.x * 0.15);
+      groupRef.current.rotation.x = Math.cos(time * 0.6) * 0.15 - (pointer.y * 0.15);
+      
+      // Faster continuous 3D rotation of the entire inner molecule group together
+      if (innerGroupRef.current) {
+        innerGroupRef.current.rotation.y = time * 0.8;
+      }
     }
   });
 
   return (
-    <group ref={groupRef} scale={1.2}>
-      <TheSunMolecule />
-      <InnerOrbit />
+    <group ref={groupRef} scale={0.85}>
+      {/* The inner core rotates smoothly as a single solid unit */}
+      <group ref={innerGroupRef} scale={0.65}>
+        <TheSunMolecule />
+        <InnerOrbit />
+      </group>
       <EyeOrbit />
     </group>
   );
@@ -170,12 +137,11 @@ export function HeroParticleField() {
   }
 
   return (
-    <div className="absolute inset-0 overflow-hidden bg-transparent z-0 flex items-center justify-center">
-      <div className="w-full max-w-4xl h-[600px] md:h-[800px] absolute opacity-80 md:opacity-100 mix-blend-multiply">
-         <Canvas camera={{ fov: 45, position: [0, 0, 8] }}>
-          <AnimatedLogoScene />
-        </Canvas>
-      </div>
+    <div className="relative w-full h-[300px] flex items-center justify-center pointer-events-none mb-8 z-10">
+      <Canvas camera={{ fov: 45, position: [0, 0, 6] }}>
+        <ambientLight intensity={1} />
+        <AnimatedLogoScene />
+      </Canvas>
     </div>
   );
 }

@@ -9,10 +9,7 @@ const HeroParticleField = dynamic(
   { ssr: false }
 );
 
-const WireframeMorph = dynamic(
-  () => import("@/components/3d/WireframeMorph").then((mod) => mod.WireframeMorph),
-  { ssr: false }
-);
+
 
 export default function Home() {
   useEffect(() => {
@@ -44,14 +41,10 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative min-h-[750px] flex flex-col items-center justify-center px-6 md:px-12 text-center overflow-hidden bg-white py-32">
         
-        {/* Background 3D Effect / Ambient glow */}
-        <div className="absolute inset-0 z-0">
-          <HeroParticleField />
-        </div>
-        
-        <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-b from-transparent to-white pointer-events-none z-10"></div>
 
-        <div className="relative z-20 w-full max-w-4xl mx-auto">
+
+        <div className="relative z-20 w-full max-w-4xl mx-auto flex flex-col items-center justify-center">
+
           <div className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-slate-50 border border-slate-200 backdrop-blur-md mb-8 shadow-sm reveal-text" style={{ animationDelay: '0.1s' }}>
             <div className="w-2 h-2 rounded-full bg-[#1E5FE0] shadow-[0_0_10px_#1E5FE0] animate-pulse"></div>
             <span className="font-label-sm text-xs font-bold text-slate-800 uppercase tracking-[0.25em]">HUMAN · DEEP TECH · DECISION</span>
@@ -65,11 +58,15 @@ export default function Home() {
             We build the intelligence layer that lets organizations sense problems before they escalate and be able to act while it still matters.
           </p>
           
-          <div className="flex flex-col md:flex-row justify-center items-center gap-4 reveal-text" style={{ animationDelay: '0.7s' }}>
+          <div className="flex flex-col md:flex-row justify-center items-center gap-4 reveal-text mb-6" style={{ animationDelay: '0.7s' }}>
             <Link href="/aiqu" className="bg-[#1E5FE0] text-white font-semibold tracking-wide uppercase text-sm px-8 py-4 rounded-xl shadow-[0_8px_25px_rgba(30,95,224,0.3)] hover:shadow-[0_12px_35px_rgba(30,95,224,0.4)] hover:-translate-y-1 transition-all duration-300 w-full md:w-auto flex items-center justify-center gap-2 group">
               Explore Our Ecosystem
               <span className="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
             </Link>
+          </div>
+          
+          <div className="-mt-4 w-full">
+            <HeroParticleField />
           </div>
         </div>
       </section>
@@ -144,49 +141,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* High-Stakes Decisiveness (Cleaned Up Section) */}
-      <section className="bg-[#05122B] py-24 relative overflow-hidden">
-        <div className="container mx-auto px-6 max-w-7xl relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            
-            {/* Left side text */}
-            <div className="max-w-2xl">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-6 shadow-sm">
-                <span className="w-2 h-2 rounded-full bg-[#1E5FE0] animate-pulse"></span>
-                <span className="text-[#b2c5ff] font-bold tracking-[0.2em] uppercase text-xs">Performance Metrics</span>
-              </div>
-              
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 font-heading leading-tight">
-                High-Stakes <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1E5FE0] to-[#b2c5ff]">Decisiveness.</span>
-              </h2>
-              
-              <p className="text-lg md:text-xl text-[#9bcbff] font-light leading-relaxed opacity-90 mb-10">
-                Quantifiable edge in the most demanding mission-critical sectors. When every millisecond counts, our intelligence core delivers absolute certainty.
-              </p>
-              
-              <ul className="space-y-4">
-                 <li className="flex items-start gap-4">
-                   <div className="w-8 h-8 rounded-full bg-[#1E5FE0]/20 flex items-center justify-center shrink-0 border border-[#1E5FE0]/30">
-                     <span className="material-symbols-outlined text-[#1E5FE0] text-[18px]">done</span>
-                   </div>
-                   <span className="text-[#b2c5ff] pt-1">Zero-latency threat detection</span>
-                 </li>
-                 <li className="flex items-start gap-4">
-                   <div className="w-8 h-8 rounded-full bg-[#1E5FE0]/20 flex items-center justify-center shrink-0 border border-[#1E5FE0]/30">
-                     <span className="material-symbols-outlined text-[#1E5FE0] text-[18px]">done</span>
-                   </div>
-                   <span className="text-[#b2c5ff] pt-1">Sovereign air-gapped deployment</span>
-                 </li>
-              </ul>
-            </div>
-
-            {/* Right side floating component (Removed numbers, added 3D visual) */}
-            <div className="relative h-[400px] w-full flex items-center justify-center">
-              <WireframeMorph />
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* CTA Section */}
       <section className="relative px-6 md:px-12 pt-[80px] pb-10 overflow-hidden">
