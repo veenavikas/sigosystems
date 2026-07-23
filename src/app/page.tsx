@@ -4,10 +4,7 @@ import React, { useEffect } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 
-const HeroParticleField = dynamic(
-  () => import("@/components/3d/HeroParticleField").then((mod) => mod.HeroParticleField),
-  { ssr: false }
-);
+
 
 
 
@@ -39,13 +36,23 @@ export default function Home() {
   return (
     <main className="min-h-[max(884px,100dvh)]">
       {/* Hero Section */}
-      <section className="relative min-h-[750px] flex flex-col items-center justify-center px-6 md:px-12 text-center overflow-hidden bg-white py-32">
+      <section className="relative flex flex-col items-center justify-center px-6 md:px-12 text-center overflow-hidden bg-white pt-32 pb-16 mt-8">
         
+        {/* Translucent Video Background */}
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline 
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] md:w-[60%] max-w-[800px] h-auto object-contain opacity-20 z-0 pointer-events-none"
+        >
+          <source src="/Animate_this_exact_logo_withou.mp4" type="video/mp4" />
+        </video>
 
 
         <div className="relative z-20 w-full max-w-4xl mx-auto flex flex-col items-center justify-center">
 
-          <div className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-slate-50 border border-slate-200 backdrop-blur-md mb-8 shadow-sm reveal-text" style={{ animationDelay: '0.1s' }}>
+          <div className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-slate-50/80 border border-slate-200 backdrop-blur-md mb-8 shadow-sm reveal-text" style={{ animationDelay: '0.1s' }}>
             <div className="w-2 h-2 rounded-full bg-[#1E5FE0] shadow-[0_0_10px_#1E5FE0] animate-pulse"></div>
             <span className="font-label-sm text-xs font-bold text-slate-800 uppercase tracking-[0.25em]">HUMAN · DEEP TECH · DECISION</span>
           </div>
@@ -63,10 +70,6 @@ export default function Home() {
               Explore Our Ecosystem
               <span className="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
             </Link>
-          </div>
-          
-          <div className="-mt-4 w-full">
-            <HeroParticleField />
           </div>
         </div>
       </section>

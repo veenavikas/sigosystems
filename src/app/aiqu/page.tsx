@@ -12,11 +12,7 @@ import { CardGrid, Card } from "@/components/ui/CardGrid";
 import { CTAButton } from "@/components/ui/CTAButton";
 import { AnimatedComparison } from "@/components/ui/AnimatedComparison";
 
-// Lazy load the 3D scenes
-const HeroParticleField = dynamic(
-  () => import("@/components/3d/HeroParticleField").then((mod) => mod.HeroParticleField),
-  { ssr: false }
-);
+
 
 
 export default function AIQUPage() {
@@ -24,6 +20,17 @@ export default function AIQUPage() {
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
       <section className="relative w-full py-32 md:py-48 flex flex-col items-center justify-center overflow-hidden bg-white">
+        
+        {/* Translucent Video Background */}
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline 
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] md:w-[60%] max-w-[800px] h-auto object-contain opacity-20 z-0 pointer-events-none"
+        >
+          <source src="/Animate_this_exact_logo_withou.mp4" type="video/mp4" />
+        </video>
 
         <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-b from-transparent to-white pointer-events-none z-10"></div>
         
@@ -41,9 +48,6 @@ export default function AIQUPage() {
           <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto font-light leading-relaxed opacity-90 mb-12">
             AIQU bridges the gap between classical learning (AI) and quantum potential (QU). To solve the unsolvable with mission-critical architectures built for enterprise scale.
           </p>
-          <div className="-mt-4 w-full">
-            <HeroParticleField />
-          </div>
         </div>
       </section>
 

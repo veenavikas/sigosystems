@@ -4,120 +4,141 @@ import React, { useRef, useMemo } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { Line } from "@react-three/drei";
-
 
 function EyeOrbit() {
-  const pts = useMemo(() => {
-    const topCurve = new THREE.QuadraticBezierCurve3(
-      new THREE.Vector3(-3.5, 0, 0),
-      new THREE.Vector3(0, 2.5, 0),
-      new THREE.Vector3(3.5, 0, 0)
-    );
-    const bottomCurve = new THREE.QuadraticBezierCurve3(
-      new THREE.Vector3(3.5, 0, 0),
-      new THREE.Vector3(0, -2.5, 0),
-      new THREE.Vector3(-3.5, 0, 0)
-    );
-    const curvePath = new THREE.CurvePath<THREE.Vector3>();
-    curvePath.add(topCurve);
-    curvePath.add(bottomCurve);
+  const shape = useMemo(() => {
+    const s = new THREE.Shape();
+    // Perfect symmetrical outer eye
+    s.moveTo(-3.5, 0); // Left sharp tip
+    s.quadraticCurveTo(0, 2.5, 3.5, 0); // Top arc to right sharp tip
+    s.quadraticCurveTo(0, -2.5, -3.5, 0); // Bottom arc to left sharp tip
+
+    const hole = new THREE.Path();
+    // Inner hole to create variable stroke thickness (thicker in middle, sharp at ends)
+    hole.moveTo(-3.45, 0); // Left inner tip (almost touching outer)
+    hole.quadraticCurveTo(0, -1.9, 3.45, 0); // Bottom inner arc
+    hole.quadraticCurveTo(0, 1.9, -3.45, 0); // Top inner arc
+    s.holes.push(hole);
     
-    return curvePath.getPoints(100);
+    return s;
   }, []);
 
   return (
-    <group>
-      {/* Thicker line for the orbit path (Eye shape) */}
-      <Line points={pts} color="#1E5FE0" lineWidth={6} transparent opacity={0.9} />
-    </group>
+    <mesh>
+      <shapeGeometry args={[shape, 128]} />
+      <meshBasicMaterial color="#0052FF" side={THREE.DoubleSide} />
+    </mesh>
   );
 }
 
-function InnerOrbit() {
-  const pts = useMemo(() => {
-    const points = [];
-    const radius = 1.3; // smaller so it's inside
-    for(let i=0; i<=64; i++) {
-      const angle = (i/64) * Math.PI * 2;
-      points.push(new THREE.Vector3(Math.cos(angle)*radius, Math.sin(angle)*radius, 0));
-    }
-    return points;
+function InnerOrbitSwoosh() {
+  const shape = useMemo(() => {
+    const s = new THREE.Shape();
+    // Outer ellipse
+    s.absellipse(0, 0, 1.8, 0.75, 0, Math.PI * 2, false, 0);
+
+    const hole = new THREE.Path();
+    // Inner ellipse offset slightly to create a tapering swoosh
+    hole.absellipse(-0.03, 0.03, 1.7, 0.68, 0, Math.PI * 2, true, 0);
+    s.holes.push(hole);
+
+    return s;
   }, []);
 
-  // Static inner orbit with the blue dot matching the logo
   return (
-    <group rotation={[1.0, 0.4, 0]}>
-      <Line points={pts} color="#1E5FE0" lineWidth={4} transparent opacity={0.9} />
-      {/* The blue dot on the orbit ring */}
-      <mesh position={[1.3, 0, 0]}>
-        <sphereGeometry args={[0.12, 16, 16]} />
-        <meshBasicMaterial color="#1E5FE0" />
+    <group rotation={[0.8, 0.3, 0]}>
+      <mesh>
+        <shapeGeometry args={[shape, 128]} />
+        <meshBasicMaterial color="#0052FF" side={THREE.DoubleSide} />
+      </mesh>
+      
+      {/* Blue dot on the swoosh */}
+      <mesh position={[1.75, -0.02, 0]}>
+        <sphereGeometry args={[0.22, 32, 32]} />
+        <meshBasicMaterial color="#0052FF" />
       </mesh>
     </group>
   );
 }
 
-function ThinLine({ start, end, color = "#475569" }: any) {
-  const points = [new THREE.Vector3(...start), new THREE.Vector3(...end)];
+function Connection({ start, end, color = "#333333", thickness = 0.05 }: any) {
+  const startVec = new THREE.Vector3(...start);
+  const endVec = new THREE.Vector3(...end);
+  const distance = startVec.distanceTo(endVec);
+  
+  const position = startVec.clone().lerp(endVec, 0.5);
+  
+  const direction = new THREE.Vector3().subVectors(endVec, startVec).normalize();
+  const quaternion = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction);
+
   return (
-    <Line points={points} color={color} lineWidth={4} transparent opacity={0.9} />
+    <mesh position={position} quaternion={quaternion}>
+      <cylinderGeometry args={[thickness, thickness, distance, 16]} />
+      <meshBasicMaterial color={color} />
+    </mesh>
   );
 }
 
-function TheSunMolecule() {
+function TheSunMolecule({ moleculeRef }: { moleculeRef: React.RefObject<THREE.Group> }) {
   return (
-    <group>
+    <group ref={moleculeRef}>
       {/* Center Main Node */}
       <mesh position={[0, 0, 0.2]}>
-        <sphereGeometry args={[0.25, 32, 32]} />
-        <meshBasicMaterial color="#475569" />
+        <sphereGeometry args={[0.3, 32, 32]} />
+        <meshBasicMaterial color="#333333" />
       </mesh>
       
       {/* Top Left Node */}
-      <mesh position={[-1.0, 0.6, 0.0]}>
-        <sphereGeometry args={[0.15, 32, 32]} />
-        <meshBasicMaterial color="#475569" />
+      <mesh position={[-1.1, 0.6, 0.0]}>
+        <sphereGeometry args={[0.18, 32, 32]} />
+        <meshBasicMaterial color="#888888" />
       </mesh>
       
       {/* Top Right Node */}
       <mesh position={[0.9, 0.5, 0.4]}>
-        <sphereGeometry args={[0.15, 32, 32]} />
-        <meshBasicMaterial color="#475569" />
+        <sphereGeometry args={[0.18, 32, 32]} />
+        <meshBasicMaterial color="#888888" />
       </mesh>
 
-      {/* Graph Connections */}
-      <ThinLine start={[0, 0, 0.2]} end={[-1.0, 0.6, 0.0]} color="#475569" />
-      <ThinLine start={[0, 0, 0.2]} end={[0.9, 0.5, 0.4]} color="#475569" />
+      {/* Solid connections */}
+      <Connection start={[0, 0, 0.2]} end={[-1.1, 0.6, 0.0]} color="#333333" thickness={0.06} />
+      <Connection start={[0, 0, 0.2]} end={[0.9, 0.5, 0.4]} color="#333333" thickness={0.06} />
     </group>
   );
 }
 
 function AnimatedLogoScene() {
   const groupRef = useRef<THREE.Group>(null);
-  const innerGroupRef = useRef<THREE.Group>(null);
+  const moleculeRef = useRef<THREE.Group>(null);
+  const swooshRef = useRef<THREE.Group>(null);
   const { pointer } = useThree();
   
   useFrame((state) => {
     if (groupRef.current) {
       const time = state.clock.elapsedTime;
-      // Mouse tracking and faster float for the whole system
-      groupRef.current.rotation.y = Math.sin(time * 0.6) * 0.15 + (pointer.x * 0.15);
-      groupRef.current.rotation.x = Math.cos(time * 0.6) * 0.15 - (pointer.y * 0.15);
       
-      // Faster continuous 3D rotation of the entire inner molecule group together
-      if (innerGroupRef.current) {
-        innerGroupRef.current.rotation.y = time * 0.8;
+      // Gentle overall float
+      groupRef.current.rotation.y = Math.sin(time * 0.6) * 0.1 + (pointer.x * 0.1);
+      groupRef.current.rotation.x = Math.cos(time * 0.6) * 0.1 - (pointer.y * 0.1);
+      
+      // Continuous 3D rotation for the center molecule
+      if (moleculeRef.current) {
+        moleculeRef.current.rotation.y = time * 0.8;
+      }
+      // Continuous 3D rotation for the inner swoosh to make the dot travel
+      if (swooshRef.current) {
+        swooshRef.current.rotation.y = time * 0.6;
       }
     }
   });
 
   return (
     <group ref={groupRef} scale={0.85}>
-      {/* The inner core rotates smoothly as a single solid unit */}
-      <group ref={innerGroupRef} scale={0.65}>
-        <TheSunMolecule />
-        <InnerOrbit />
+      <group scale={0.65}>
+        <TheSunMolecule moleculeRef={moleculeRef} />
+        <group ref={swooshRef}>
+          <InnerOrbitSwoosh />
+        </group>
       </group>
       <EyeOrbit />
     </group>
@@ -125,7 +146,6 @@ function AnimatedLogoScene() {
 }
 
 export function HeroParticleField() {
-  const isMobile = useMediaQuery("(max-width: 768px)");
   const prefersReducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
 
   if (prefersReducedMotion) {
