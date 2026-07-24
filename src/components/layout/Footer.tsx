@@ -102,8 +102,8 @@ export function Footer() {
           <div className="border-t border-slate-100 pt-8 mt-4 flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-slate-500 font-medium">
             <p>&copy; {new Date().getFullYear()} SIGO Systems. All rights reserved.</p>
             <div className="flex flex-wrap gap-6">
-              <Link href="#" className="hover:text-[#0B2559] transition-colors">Privacy Policy</Link>
-              <Link href="#" className="hover:text-[#0B2559] transition-colors">Terms of Service</Link>
+              <Link href="/privacy" className="hover:text-[#0B2559] transition-colors">Privacy Policy</Link>
+              <Link href="/terms" className="hover:text-[#0B2559] transition-colors">Terms of Service</Link>
             </div>
           </div>
 
