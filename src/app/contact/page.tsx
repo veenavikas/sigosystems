@@ -74,6 +74,39 @@ export default function ContactPage() {
                     </p>
                   </div>
                 </div>
+
+                <div className="flex gap-6">
+                  <div className="w-14 h-14 rounded-2xl bg-[#f4f7fc] border border-[#e7eeff] flex items-center justify-center shrink-0 shadow-sm text-[#1E5FE0]">
+                    <span className="material-symbols-outlined text-2xl">share</span>
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-[#0B2559] text-lg mb-2">Social Channels</h4>
+                    <div className="flex gap-4 items-center mt-2">
+                      <a 
+                        href="https://www.linkedin.com/company/sigo-systems/" 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 hover:bg-[#0B2559] hover:text-white hover:border-[#0B2559] transition-all text-sm font-semibold shadow-sm"
+                        aria-label="LinkedIn Profile"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                        <span>LinkedIn</span>
+                      </a>
+                      <a 
+                        href="https://x.com/SIGOSYS" 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 hover:bg-[#0B2559] hover:text-white hover:border-[#0B2559] transition-all text-sm font-semibold shadow-sm"
+                        aria-label="X Profile"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                        </svg>
+                        <span>X (Twitter)</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             

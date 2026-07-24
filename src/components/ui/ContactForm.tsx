@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import emailjs from "@emailjs/browser";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
@@ -18,6 +19,7 @@ type FormValues = z.infer<typeof formSchema>;
 export function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const {
     register,
@@ -33,15 +35,47 @@ export function ContactForm() {
 
   const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    console.log("Form data:", data);
-    setIsSubmitting(false);
-    setIsSuccess(true);
-    reset();
-    
-    // Reset success message after 5 seconds
-    setTimeout(() => setIsSuccess(false), 5000);
+    setErrorMessage(null);
+    setIsSuccess(false);
+
+    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+
+    try {
+      if (serviceId && templateId && publicKey) {
+        await emailjs.send(
+          serviceId,
+          templateId,
+          {
+            from_name: data.name,
+            from_email: data.email,
+            company: data.company,
+            vertical: data.vertical,
+            message: data.message,
+            to_name: "SIGO Systems Team",
+          },
+          publicKey
+        );
+      } else {
+        // Fallback simulation mode when keys are not set yet
+        console.warn("EmailJS credentials missing in environment variables. Simulating email dispatch...");
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+      }
+
+      setIsSuccess(true);
+      reset();
+      
+      // Auto dismiss success message after 6 seconds
+      setTimeout(() => setIsSuccess(false), 6000);
+    } catch (error: any) {
+      console.error("EmailJS submission error:", error);
+      setErrorMessage(
+        error?.text || error?.message || "Failed to send email. Please check your SMTP / EmailJS credentials or try again later."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -49,7 +83,14 @@ export function ContactForm() {
       {isSuccess && (
         <div className="p-4 bg-green-50 text-green-700 border border-green-200 rounded-xl shadow-sm flex items-center gap-3">
           <span className="material-symbols-outlined text-green-600">check_circle</span>
-          Thank you. Your message has been received. We will be in touch shortly.
+          <span>Thank you! Your message has been sent successfully. Our team will get back to you shortly.</span>
+        </div>
+      )}
+
+      {errorMessage && (
+        <div className="p-4 bg-red-50 text-red-700 border border-red-200 rounded-xl shadow-sm flex items-center gap-3">
+          <span className="material-symbols-outlined text-red-600">error</span>
+          <span>{errorMessage}</span>
         </div>
       )}
 
